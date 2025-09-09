@@ -84,14 +84,14 @@ This plan follows a strict tests-first approach. Every task is listed as a singl
 - [x] Implement in-memory/mock transport layer and strategy policy to satisfy tests
 
 ### Phase 12 — Integration Scenarios (Tests First)
-- [ ] Write integration test: create → move → delete sequence maintains integrity
-- [ ] Write integration test: rapid indent/outdent remains consistent under stress
-- [ ] Write integration test: concurrent edits from multiple clients resolve correctly
-- [ ] Write integration test: offline ops sync correctly on reconnect
+ - [x] Write integration test: create → move → delete sequence maintains integrity
+ - [ ] Write integration test: rapid indent/outdent remains consistent under stress
+ - [ ] Write integration test: concurrent edits from multiple clients resolve correctly
+ - [ ] Write integration test: offline ops sync correctly on reconnect
  
 
 ### Phase 13 — Property-Based Tests (Tests First)
-- [ ] Write property test: any valid op sequence preserves tree integrity invariants
+- [x] Write property test: any valid op sequence preserves tree integrity invariants
 - [ ] Write property test: sibling `order` uniqueness per parent always holds
 - [ ] Write property test: depth equals parent chain length for all nodes
 - [ ] Write property test: all nodes remain reachable from root set
