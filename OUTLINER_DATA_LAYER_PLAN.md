@@ -37,13 +37,13 @@ This plan follows a strict tests-first approach. Every task is listed as a singl
 - [x] Implement minimal in-memory `SyncManager` to satisfy tests
 
 ### Phase 5 — Core Operations: Node Management (Tests First)
-- [ ] Write unit tests: `createNode` (valid id, depth, order, timestamps, indices; `afterNodeId` adopts target node's parent)
-- [ ] Write unit tests: `updateContent` (versioning, timestamps, structure preservation)
-- [ ] Write unit tests: `deleteNode` with `deleteSubtree`
-- [ ] Write unit tests: `deleteNode` with `promoteChildren` (order renumbering)
-- [ ] Implement `OutlineDataManager` skeleton exposing async public APIs (no logic)
-- [ ] Implement `TreeOperations` pure functions for create/update/delete to pass tests
-- [ ] Wire `OutlineDataManager` to call `TreeOperations`, update indices, emit events
+- [x] Write unit tests: `createNode` (valid id, depth, order, timestamps, indices; `afterNodeId` adopts target node's parent)
+- [x] Write unit tests: `updateContent` (versioning, timestamps, structure preservation)
+- [x] Write unit tests: `deleteNode` with `deleteSubtree`
+- [x] Write unit tests: `deleteNode` with `promoteChildren` (order renumbering)
+- [x] Implement `OutlineDataManager` skeleton exposing async public APIs (no logic)
+- [x] Implement `TreeOperations` pure functions for create/update/delete to pass tests
+- [x] Wire `OutlineDataManager` to call `TreeOperations`, update indices, emit events
 
 ### Phase 6 — Core Operations: Traversal (Tests First)
 - [ ] Write unit tests: `getHierarchy` (ancestors ordered root→leaf)
