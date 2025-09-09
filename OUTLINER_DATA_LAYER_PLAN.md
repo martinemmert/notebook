@@ -3,38 +3,38 @@
 This plan follows a strict tests-first approach. Every task is listed as a single line with a checkbox. Tasks are grouped by phase for clarity, but can be executed iteratively as needed.
 
 ### Phase 0 — Project Setup
-- [ ] Initialize TypeScript project (tsconfig, strict mode, ES2020+, module resolution)
-- [ ] Add linting/formatting (ESLint + Prettier) with CI-enforced rules
-- [ ] Configure test runner (Vitest) with coverage thresholds (>95%)
-- [ ] Add property-based testing library (`fast-check`) and helpers
+- [x] Initialize TypeScript project (tsconfig, strict mode, ES2020+, module resolution)
+- [x] Add linting/formatting (ESLint + Prettier) with CI-enforced rules
+- [x] Configure test runner (Vitest) with coverage thresholds (>95%)
+- [x] Add property-based testing library (`fast-check`) and helpers
 - [ ] Add UUID generation (`uuid`) and date utilities (pure wrappers for testability)
-- [ ] Add IndexedDB test shim (`fake-indexeddb`) for Node test environment
-- [ ] Define NPM scripts (build, test, test:watch, lint, typecheck, coverage)
+- [x] Add IndexedDB test shim (`fake-indexeddb`) for Node test environment
+- [x] Define NPM scripts (build, test, test:watch, lint, typecheck, coverage)
 - [ ] Set up GitHub Actions (Node LTS matrix, cache, artifacts, coverage gate)
 
 ### Phase 1 — Domain Types and Invariants (Tests First)
-- [ ] Write unit tests for type guard utilities and invariants on `OutlineNode` and `OutlineDocument`
-- [ ] Implement minimal types/interfaces in `src/types.ts` to satisfy tests (no logic)
-- [ ] Write tests for `ErrorCode`, `OperationError`, constructors/factory helpers
-- [ ] Implement error utilities and safe constructors (minimal to pass tests)
+- [x] Write unit tests for type guard utilities and invariants on `OutlineNode` and `OutlineDocument`
+- [x] Implement minimal types/interfaces in `src/types.ts` to satisfy tests (no logic)
+- [x] Write tests for `ErrorCode`, `OperationError`, constructors/factory helpers
+- [x] Implement error utilities and safe constructors (minimal to pass tests)
 
 ### Phase 2 — Indexing Layer (Tests First)
-- [ ] Write unit tests for `DataIndices` builder from a flat node array
-- [ ] Write tests for efficient lookup: `nodeById`, `childrenByParent`, `orderedChildren`, `maxOrderByParent`
-- [ ] Write tests for immutability guarantees (no in-place mutation of inputs)
-- [ ] Implement `buildIndices(nodes)`, `updateIndices(change)` minimal variants to pass tests
+- [x] Write unit tests for `DataIndices` builder from a flat node array
+- [x] Write tests for efficient lookup: `nodeById`, `childrenByParent`, `orderedChildren`, `maxOrderByParent`
+- [x] Write tests for immutability guarantees (no in-place mutation of inputs)
+- [x] Implement `buildIndices(nodes)`, `updateIndices(change)` minimal variants to pass tests
 
 ### Phase 3 — Event System (Tests First)
-- [ ] Write unit tests for `RealtimeManager` subscribe/unsubscribe semantics
-- [ ] Write tests for `broadcast` ordering and delivery guarantees; payload includes node ids and diffs
-- [ ] Implement in-memory `RealtimeManager` (UI-agnostic) to pass tests
+- [x] Write unit tests for `RealtimeManager` subscribe/unsubscribe semantics
+- [x] Write tests for `broadcast` ordering and delivery guarantees; payload includes node ids and diffs
+- [x] Implement in-memory `RealtimeManager` (UI-agnostic) to pass tests
 
 ### Phase 4 — Operation Log & Sync Contracts (Tests First)
-- [ ] Write unit tests for `SyncManager.logOperation` (idempotent, monotonic versioning)
-- [ ] Write tests for `getUnsyncedOperations` ordering and filtering
-- [ ] Write tests for `applyRemoteOperations` happy-path merges (no conflicts)
-- [ ] Write tests for conflict surfaces (version mismatches) with default LWW and resolution hooks
-- [ ] Implement minimal in-memory `SyncManager` to satisfy tests
+- [x] Write unit tests for `SyncManager.logOperation` (idempotent, monotonic versioning)
+- [x] Write tests for `getUnsyncedOperations` ordering and filtering
+- [x] Write tests for `applyRemoteOperations` happy-path merges (no conflicts)
+- [x] Write tests for conflict surfaces (version mismatches) with default LWW and resolution hooks
+- [x] Implement minimal in-memory `SyncManager` to satisfy tests
 
 ### Phase 5 — Core Operations: Node Management (Tests First)
 - [ ] Write unit tests: `createNode` (valid id, depth, order, timestamps, indices; `afterNodeId` adopts target node's parent)
