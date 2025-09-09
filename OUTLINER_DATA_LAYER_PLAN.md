@@ -53,11 +53,11 @@ This plan follows a strict tests-first approach. Every task is listed as a singl
 - [x] Implement traversal utilities to pass traversal tests
 
 ### Phase 7 — Core Operations: Reordering & Structure (Tests First)
-- [ ] Write unit tests: `moveNode` up/down (swap adjacent siblings, edges)
-- [ ] Write unit tests: `changeLevel` indent (become child of previous sibling)
-- [ ] Write unit tests: `changeLevel` outdent (become sibling of parent)
-- [ ] Write unit tests: depth recalculation for node and all descendants
-- [ ] Implement reordering/level-change logic and efficient index updates
+- [x] Write unit tests: `moveNode` up/down (swap adjacent siblings, edges)
+- [x] Write unit tests: `changeLevel` indent (become child of previous sibling)
+- [x] Write unit tests: `changeLevel` outdent (become sibling of parent)
+- [x] Write unit tests: depth recalculation for node and all descendants
+- [x] Implement reordering/level-change logic and efficient index updates
 
 ### Phase 8 — Error Handling (Tests First)
 - [ ] Write unit tests: invalid parent, circular reference prevention

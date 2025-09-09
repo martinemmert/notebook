@@ -36,3 +36,26 @@ export interface DeleteNodeResult {
   promotedNodes?: OutlineNode[];
   error?: any;
 }
+
+export interface MoveNodeParams {
+  nodeId: string;
+  direction: 'up' | 'down';
+}
+
+export interface MoveNodeResult {
+  success: boolean;
+  affectedNodes?: OutlineNode[];
+  error?: any;
+}
+
+export interface ChangeLevelParams {
+  nodeId: string;
+  operation: 'indent' | 'outdent';
+}
+
+export interface ChangeLevelResult {
+  success: boolean;
+  node?: OutlineNode;
+  affectedDescendants?: OutlineNode[];
+  error?: any;
+}

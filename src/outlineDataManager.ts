@@ -2,8 +2,8 @@ import { OutlineDocument, OutlineNode } from './types.js';
 import { buildIndices } from './indices.js';
 import { RealtimeManager } from './realtime.js';
 import { SyncManager } from './sync.js';
-import { CreateNodeParams, CreateNodeResult, DeleteNodeParams, DeleteNodeResult, UpdateContentParams, UpdateContentResult } from './api.js';
-import { createNodeImmutable, updateContentImmutable, deleteNodeImmutable } from './treeOperations.js';
+import { CreateNodeParams, CreateNodeResult, DeleteNodeParams, DeleteNodeResult, UpdateContentParams, UpdateContentResult, MoveNodeParams, MoveNodeResult, ChangeLevelParams, ChangeLevelResult } from './api.js';
+import { createNodeImmutable, updateContentImmutable, deleteNodeImmutable, moveNodeImmutable, changeLevelImmutable } from './treeOperations.js';
 import { getHierarchy, getFlattenedView } from './traversal.js';
 
 interface Providers {
@@ -93,5 +93,31 @@ export class OutlineDataManager {
 
   getFlattenedView(params: { rootNodeId?: string | null; includeCollapsed?: boolean; maxNodes?: number }) {
     return getFlattenedView(this.doc, this.indices, params);
+  }
+
+  async moveNode(params: MoveNodeParams): Promise<MoveNodeResult> {
+    try {
+      const now = this.providers.clock.nowIso();
+      const { doc, affected } = moveNodeImmutable(this.doc, params.nodeId, params.direction, now);
+      this.doc = doc;
+      this.indices = buildIndices(this.doc.nodes);
+      this.providers.realtime.broadcast({ type: 'nodeMoved', nodeId: params.nodeId, diff: {}, version: doc.version, affectedNodeIds: affected.map(n => n.id) });
+      return { success: true, affectedNodes: affected };
+    } catch (e: any) {
+      return { success: false, error: e };
+    }
+  }
+
+  async changeLevel(params: ChangeLevelParams): Promise<ChangeLevelResult> {
+    try {
+      const now = this.providers.clock.nowIso();
+      const { doc, node, affectedDescendants } = changeLevelImmutable(this.doc, params.nodeId, params.operation, now);
+      this.doc = doc;
+      this.indices = buildIndices(this.doc.nodes);
+      this.providers.realtime.broadcast({ type: 'nodeMoved', nodeId: params.nodeId, diff: {}, version: doc.version, affectedNodeIds: affectedDescendants.map(n => n.id) });
+      return { success: true, node, affectedDescendants };
+    } catch (e: any) {
+      return { success: false, error: e };
+    }
   }
 }

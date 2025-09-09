@@ -102,3 +102,80 @@ export function deleteNodeImmutable(doc: OutlineDocument, nodeId: string, strate
   }
   return { doc: { ...doc, nodes, updatedAt: nowIso, version: doc.version + 1 }, deletedNodes, promotedNodes };
 }
+
+export function moveNodeImmutable(doc: OutlineDocument, nodeId: string, direction: 'up' | 'down', nowIso: string): { doc: OutlineDocument; affected: OutlineNode[] } {
+  const node = doc.nodes.find(n => n.id === nodeId);
+  if (!node) throw new Error('node not found');
+  const siblings = doc.nodes.filter(n => n.parentId === node.parentId).sort((a, b) => a.order - b.order);
+  const idx = siblings.findIndex(n => n.id === nodeId);
+  if (direction === 'up') {
+    if (idx <= 0) throw new Error('at boundary');
+    const prev = siblings[idx - 1];
+    const tmp = node.order;
+    node.order = prev.order;
+    prev.order = tmp;
+  } else {
+    if (idx < 0 || idx >= siblings.length - 1) throw new Error('at boundary');
+    const next = siblings[idx + 1];
+    const tmp = node.order;
+    node.order = next.order;
+    next.order = tmp;
+  }
+  // renumber contiguous
+  siblings.sort((a, b) => a.order - b.order).forEach((s, i) => (s.order = i));
+  const nodes = doc.nodes.map(n => {
+    const s = siblings.find(x => x.id === n.id);
+    return s ? { ...s } : n;
+  });
+  return { doc: { ...doc, nodes, updatedAt: nowIso, version: doc.version + 1 }, affected: siblings };
+}
+
+export function changeLevelImmutable(doc: OutlineDocument, nodeId: string, operation: 'indent' | 'outdent', nowIso: string): { doc: OutlineDocument; node: OutlineNode; affectedDescendants: OutlineNode[] } {
+  const node = doc.nodes.find(n => n.id === nodeId);
+  if (!node) throw new Error('node not found');
+  if (operation === 'indent') {
+    const siblings = doc.nodes.filter(n => n.parentId === node.parentId).sort((a, b) => a.order - b.order);
+    const idx = siblings.findIndex(n => n.id === nodeId);
+    if (idx <= 0) throw new Error('cannot indent first sibling');
+    const newParent = siblings[idx - 1];
+    const children = doc.nodes.filter(n => n.parentId === newParent.id);
+    const updatedNode: OutlineNode = { ...node, parentId: newParent.id, depth: newParent.depth + 1, order: children.length };
+    // update doc with new node and renumber old siblings
+    const nodes = doc.nodes.map(n => (n.id === node.id ? updatedNode : n));
+    const oldSiblings = nodes.filter(n => n.parentId === node.parentId).sort((a, b) => a.order - b.order);
+    oldSiblings.forEach((s, i) => (s.order = i));
+    const nodes2 = nodes.map(n => {
+      const s = oldSiblings.find(x => x.id === n.id);
+      return s ? { ...s } : n;
+    });
+    const affectedDescendants: OutlineNode[] = [];
+    return { doc: { ...doc, nodes: nodes2, updatedAt: nowIso, version: doc.version + 1 }, node: updatedNode, affectedDescendants };
+  } else {
+    // outdent
+    if (node.parentId === null) throw new Error('cannot outdent root');
+    const parent = doc.nodes.find(n => n.id === node.parentId)!;
+    const grandParentId = parent.parentId;
+    const siblingsAtGrand = doc.nodes.filter(n => n.parentId === grandParentId).sort((a, b) => a.order - b.order);
+    const updatedNode: OutlineNode = { ...node, parentId: grandParentId, depth: parent.depth, order: siblingsAtGrand.length };
+    const nodes = doc.nodes.map(n => (n.id === node.id ? updatedNode : n));
+    const parentChildren = nodes.filter(n => n.parentId === parent.id).sort((a, b) => a.order - b.order);
+    parentChildren.forEach((c, i) => (c.order = i));
+    const nodes2 = nodes.map(n => {
+      const s = parentChildren.find(x => x.id === n.id);
+      return s ? { ...s } : n;
+    });
+    // adjust depths for node descendants
+    const affectedDescendants: OutlineNode[] = [];
+    const adjustDesc = (id: string, baseDepth: number) => {
+      for (const c of nodes2) {
+        if (c.parentId === id) {
+          c.depth = baseDepth + 1;
+          affectedDescendants.push({ ...c });
+          adjustDesc(c.id, c.depth);
+        }
+      }
+    };
+    adjustDesc(updatedNode.id, updatedNode.depth);
+    return { doc: { ...doc, nodes: nodes2, updatedAt: nowIso, version: doc.version + 1 }, node: updatedNode, affectedDescendants };
+  }
+}
