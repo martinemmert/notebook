@@ -72,10 +72,10 @@ This plan follows a strict tests-first approach. Every task is listed as a singl
 - [x] Implement `ValidationEngine` rules and `RecoveryManager` actions
 
 ### Phase 10 — Storage Layer (Tests First)
-- [ ] Write unit tests: `StorageProvider` contract (save/load/delete/backup/listBackups)
-- [ ] Write unit tests: IndexedDB implementation including quota exceeded behavior
+- [x] Write unit tests: `StorageProvider` contract (save/load/delete/backup/listBackups)
+- [x] Write unit tests: IndexedDB implementation including quota exceeded behavior
 - [ ] Write unit tests: backup-before-major-ops and retention policy
-- [ ] Implement IndexedDB storage with localStorage fallback; robust error handling and backoff (no compression)
+- [x] Implement IndexedDB storage with localStorage fallback; robust error handling and backoff (no compression)
 
 ### Phase 11 — Remote Sync Semantics (Tests First)
 - [ ] Write unit tests: WebSocket-style real-time sync (batching, retries, offline queue)
