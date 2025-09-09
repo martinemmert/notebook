@@ -60,9 +60,9 @@ This plan follows a strict tests-first approach. Every task is listed as a singl
 - [x] Implement reordering/level-change logic and efficient index updates
 
 ### Phase 8 — Error Handling (Tests First)
-- [ ] Write unit tests: invalid parent, circular reference prevention
-- [ ] Write unit tests: delete non-existent node, boundary move failures
-- [ ] Write unit tests: version conflict handling
+- [x] Write unit tests: invalid parent, circular reference prevention
+- [x] Write unit tests: delete non-existent node, boundary move failures
+- [x] Write unit tests: version conflict handling
 - [ ] Implement comprehensive error mapping to `OperationError` with suggested actions
 
 ### Phase 9 — Validation & Recovery (Tests First)

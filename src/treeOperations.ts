@@ -19,8 +19,14 @@ export function createNodeImmutable(doc: OutlineDocument, parentId: string | nul
     }
     return siblingList.length;
   })();
-  const depth = effectiveParentId === null ? 0 : (doc.nodes.find(n => n.id === effectiveParentId)?.depth ?? -1) + 1;
-  if (depth < 0) throw new Error('invalid parent');
+  let depth: number;
+  if (effectiveParentId === null) {
+    depth = 0;
+  } else {
+    const parent = doc.nodes.find(n => n.id === effectiveParentId);
+    if (!parent) throw new Error('invalid parent');
+    depth = parent.depth + 1;
+  }
   const newNode: OutlineNode = {
     id: newId,
     parentId: effectiveParentId,
