@@ -66,10 +66,10 @@ This plan follows a strict tests-first approach. Every task is listed as a singl
 - [ ] Implement comprehensive error mapping to `OperationError` with suggested actions
 
 ### Phase 9 — Validation & Recovery (Tests First)
-- [ ] Write unit tests: `ValidationEngine.validateDataIntegrity` detects orphaned/invalid-depth/duplicate-order/missing-parent/cycles
-- [ ] Write unit tests: `RecoveryManager.repairCorruption` auto-fixes (attach to root, recalc depth, renumber, break cycles)
+- [x] Write unit tests: `ValidationEngine.validateDataIntegrity` detects orphaned/invalid-depth/duplicate-order/missing-parent/cycles
+- [x] Write unit tests: `RecoveryManager.repairCorruption` auto-fixes (attach to root, recalc depth, renumber, break cycles)
 - [ ] Write unit tests: `rollbackOperation` and backup/restore flow
-- [ ] Implement `ValidationEngine` rules and `RecoveryManager` actions
+- [x] Implement `ValidationEngine` rules and `RecoveryManager` actions
 
 ### Phase 10 — Storage Layer (Tests First)
 - [ ] Write unit tests: `StorageProvider` contract (save/load/delete/backup/listBackups)
