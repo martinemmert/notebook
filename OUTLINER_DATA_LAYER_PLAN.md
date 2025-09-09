@@ -26,22 +26,22 @@ This plan follows a strict tests-first approach. Every task is listed as a singl
 
 ### Phase 3 — Event System (Tests First)
 - [ ] Write unit tests for `RealtimeManager` subscribe/unsubscribe semantics
-- [ ] Write tests for `broadcast` ordering and delivery guarantees (sync + microtask flush)
+- [ ] Write tests for `broadcast` ordering and delivery guarantees; payload includes node ids and diffs
 - [ ] Implement in-memory `RealtimeManager` (UI-agnostic) to pass tests
 
 ### Phase 4 — Operation Log & Sync Contracts (Tests First)
 - [ ] Write unit tests for `SyncManager.logOperation` (idempotent, monotonic versioning)
 - [ ] Write tests for `getUnsyncedOperations` ordering and filtering
 - [ ] Write tests for `applyRemoteOperations` happy-path merges (no conflicts)
-- [ ] Write tests for conflict surfaces (version mismatches) and resolution hooks
+- [ ] Write tests for conflict surfaces (version mismatches) with default LWW and resolution hooks
 - [ ] Implement minimal in-memory `SyncManager` to satisfy tests
 
 ### Phase 5 — Core Operations: Node Management (Tests First)
-- [ ] Write unit tests: `createNode` (valid id, depth, order, timestamps, indices)
+- [ ] Write unit tests: `createNode` (valid id, depth, order, timestamps, indices; `afterNodeId` adopts target node's parent)
 - [ ] Write unit tests: `updateContent` (versioning, timestamps, structure preservation)
 - [ ] Write unit tests: `deleteNode` with `deleteSubtree`
 - [ ] Write unit tests: `deleteNode` with `promoteChildren` (order renumbering)
-- [ ] Implement `OutlineDataManager` skeleton exposing required APIs (no logic)
+- [ ] Implement `OutlineDataManager` skeleton exposing async public APIs (no logic)
 - [ ] Implement `TreeOperations` pure functions for create/update/delete to pass tests
 - [ ] Wire `OutlineDataManager` to call `TreeOperations`, update indices, emit events
 
@@ -60,9 +60,9 @@ This plan follows a strict tests-first approach. Every task is listed as a singl
 - [ ] Implement reordering/level-change logic and efficient index updates
 
 ### Phase 8 — Error Handling (Tests First)
-- [ ] Write unit tests: invalid parent, circular reference prevention, max depth exceeded
+- [ ] Write unit tests: invalid parent, circular reference prevention
 - [ ] Write unit tests: delete non-existent node, boundary move failures
-- [ ] Write unit tests: content validation errors (constraints), version conflict handling
+- [ ] Write unit tests: version conflict handling
 - [ ] Implement comprehensive error mapping to `OperationError` with suggested actions
 
 ### Phase 9 — Validation & Recovery (Tests First)
@@ -74,9 +74,8 @@ This plan follows a strict tests-first approach. Every task is listed as a singl
 ### Phase 10 — Storage Layer (Tests First)
 - [ ] Write unit tests: `StorageProvider` contract (save/load/delete/backup/listBackups)
 - [ ] Write unit tests: IndexedDB implementation including quota exceeded behavior
-- [ ] Write unit tests: compression on large documents and decompression on load
 - [ ] Write unit tests: backup-before-major-ops and retention policy
-- [ ] Implement IndexedDB storage with localStorage fallback; compression and backoff
+- [ ] Implement IndexedDB storage with localStorage fallback; robust error handling and backoff (no compression)
 
 ### Phase 11 — Remote Sync Semantics (Tests First)
 - [ ] Write unit tests: WebSocket-style real-time sync (batching, retries, offline queue)
@@ -89,7 +88,7 @@ This plan follows a strict tests-first approach. Every task is listed as a singl
 - [ ] Write integration test: rapid indent/outdent remains consistent under stress
 - [ ] Write integration test: concurrent edits from multiple clients resolve correctly
 - [ ] Write integration test: offline ops sync correctly on reconnect
-- [ ] Write integration test: large tree operations meet performance bounds
+ 
 
 ### Phase 13 — Property-Based Tests (Tests First)
 - [ ] Write property test: any valid op sequence preserves tree integrity invariants
@@ -98,11 +97,7 @@ This plan follows a strict tests-first approach. Every task is listed as a singl
 - [ ] Write property test: all nodes remain reachable from root set
 - [ ] Write property test: sync operations are commutative/associative/idempotent
 
-### Phase 14 — Performance & Observability
-- [ ] Add micro-benchmarks for create/move/indent/outdent/flattened view
-- [ ] Add indices rebuild and incremental update benchmarks
-- [ ] Add doc size scenarios (1k/5k/10k/50k nodes) with time/memory budgets
-- [ ] Add optional instrumentation hooks and lightweight profiler toggles
+
 
 ### Phase 15 — Developer Experience & Documentation
 - [ ] Generate API docs (TSDoc + typed examples)
@@ -135,7 +130,6 @@ This plan follows a strict tests-first approach. Every task is listed as a singl
 ### Risk & Recovery Tasks
 - [ ] Implement safe renumber strategy for massive sibling lists (O(n) cap)
 - [ ] Implement fractional ordering fallback (optional) for mid-insert stress (behind flag)
-- [ ] Implement max-depth guard and configurable policy
 - [ ] Implement auto-backup cadence and manual restore path
 
 ---
