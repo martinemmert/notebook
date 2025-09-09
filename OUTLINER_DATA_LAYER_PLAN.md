@@ -78,10 +78,10 @@ This plan follows a strict tests-first approach. Every task is listed as a singl
 - [x] Implement IndexedDB storage with localStorage fallback; robust error handling and backoff (no compression)
 
 ### Phase 11 — Remote Sync Semantics (Tests First)
-- [ ] Write unit tests: WebSocket-style real-time sync (batching, retries, offline queue)
-- [ ] Write unit tests: REST fallback for reliability with exponential backoff
-- [ ] Write unit tests: reconciliation when connection restores (batch apply, order by version)
-- [ ] Implement in-memory/mock transport layer and strategy policy to satisfy tests
+- [x] Write unit tests: WebSocket-style real-time sync (batching, retries, offline queue)
+- [x] Write unit tests: REST fallback for reliability with exponential backoff
+- [x] Write unit tests: reconciliation when connection restores (batch apply, order by version)
+- [x] Implement in-memory/mock transport layer and strategy policy to satisfy tests
 
 ### Phase 12 — Integration Scenarios (Tests First)
 - [ ] Write integration test: create → move → delete sequence maintains integrity
