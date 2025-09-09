@@ -46,11 +46,11 @@ This plan follows a strict tests-first approach. Every task is listed as a singl
 - [x] Wire `OutlineDataManager` to call `TreeOperations`, update indices, emit events
 
 ### Phase 6 — Core Operations: Traversal (Tests First)
-- [ ] Write unit tests: `getHierarchy` (ancestors ordered root→leaf)
-- [ ] Write unit tests: `getHierarchy` (descendants depth-first, depth limit)
-- [ ] Write unit tests: `getHierarchy` (siblings in order)
-- [ ] Write unit tests: `getFlattenedView` (depth-first ordering, partial loading)
-- [ ] Implement traversal utilities to pass traversal tests
+- [x] Write unit tests: `getHierarchy` (ancestors ordered root→leaf)
+- [x] Write unit tests: `getHierarchy` (descendants depth-first, depth limit)
+- [x] Write unit tests: `getHierarchy` (siblings in order)
+- [x] Write unit tests: `getFlattenedView` (depth-first ordering, partial loading)
+- [x] Implement traversal utilities to pass traversal tests
 
 ### Phase 7 — Core Operations: Reordering & Structure (Tests First)
 - [ ] Write unit tests: `moveNode` up/down (swap adjacent siblings, edges)

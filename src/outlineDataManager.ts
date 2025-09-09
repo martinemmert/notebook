@@ -4,6 +4,7 @@ import { RealtimeManager } from './realtime.js';
 import { SyncManager } from './sync.js';
 import { CreateNodeParams, CreateNodeResult, DeleteNodeParams, DeleteNodeResult, UpdateContentParams, UpdateContentResult } from './api.js';
 import { createNodeImmutable, updateContentImmutable, deleteNodeImmutable } from './treeOperations.js';
+import { getHierarchy, getFlattenedView } from './traversal.js';
 
 interface Providers {
   realtime: RealtimeManager;
@@ -84,5 +85,13 @@ export class OutlineDataManager {
     } catch (e: any) {
       return { success: false, error: e };
     }
+  }
+
+  getHierarchy(params: { nodeId: string; direction: 'ancestors' | 'descendants' | 'siblings'; maxDepth?: number }) {
+    return getHierarchy(this.doc, this.indices, params);
+  }
+
+  getFlattenedView(params: { rootNodeId?: string | null; includeCollapsed?: boolean; maxNodes?: number }) {
+    return getFlattenedView(this.doc, this.indices, params);
   }
 }
