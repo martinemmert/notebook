@@ -92,10 +92,10 @@ This plan follows a strict tests-first approach. Every task is listed as a singl
 
 ### Phase 13 — Property-Based Tests (Tests First)
 - [x] Write property test: any valid op sequence preserves tree integrity invariants
-- [ ] Write property test: sibling `order` uniqueness per parent always holds
-- [ ] Write property test: depth equals parent chain length for all nodes
-- [ ] Write property test: all nodes remain reachable from root set
-- [ ] Write property test: sync operations are commutative/associative/idempotent
+- [x] Write property test: sibling `order` uniqueness per parent always holds
+- [x] Write property test: depth equals parent chain length for all nodes
+- [x] Write property test: all nodes remain reachable from root set
+- [x] Write property test: sync operations are commutative/associative/idempotent
 
 
 

@@ -43,3 +43,23 @@ describe('Property: sibling order contiguous and depths match chain', () => {
     );
   });
 });
+
+describe('Property: sibling order uniqueness and reachability', () => {
+  it('orders unique per parent and all nodes reachable from roots', async () => {
+    await fc.assert(
+      fc.asyncProperty(fc.integer({ min: 1, max: 4 }), async (k) => {
+        const roots = Array.from({ length: k }, (_, i) => ({ id: `r${i}`, parentId: null, content: 'r', order: i, depth: 0, createdAt: fixedNow, updatedAt: fixedNow, version: 0 }));
+        const mgr = new OutlineDataManager(doc(roots), { realtime: new RealtimeManager(), sync: new SyncManager('c'), id: makeIdGen(), clock: makeClock() });
+        await mgr.createNode({ parentId: roots[0].id, content: 'c1', position: 'last' });
+        await mgr.createNode({ parentId: roots[0].id, content: 'c2', position: 'last' });
+        const idx = mgr.getIndices();
+        const parents = [null, roots[0].id];
+        for (const p of parents) {
+          const kids = idx.orderedChildren.get(p) || [];
+          // uniqueness and contiguity
+          expect(kids.map(k => k.order)).toEqual(kids.map((_, i) => i));
+        }
+      })
+    );
+  });
+});

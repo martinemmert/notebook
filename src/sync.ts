@@ -38,7 +38,16 @@ export class SyncManager {
       const local = this.findLatestForNode(op.nodeId);
       if (!local || op.version >= local.version) {
         // accept remote by LWW
-        this.log.set(op.id, op);
+        // prune older entries for the same node
+        for (const [id, existing] of [...this.log.entries()]) {
+          if (existing.nodeId === op.nodeId && existing.version < op.version) {
+            this.log.delete(id);
+          }
+        }
+        // dedupe by id for idempotency
+        if (!this.log.has(op.id)) {
+          this.log.set(op.id, op);
+        }
         resolutions.push({ type: 'autoResolved', strategy: 'lastWriteWins' });
       } else {
         // local newer; keep local
