@@ -85,9 +85,9 @@ This plan follows a strict tests-first approach. Every task is listed as a singl
 
 ### Phase 12 — Integration Scenarios (Tests First)
  - [x] Write integration test: create → move → delete sequence maintains integrity
- - [ ] Write integration test: rapid indent/outdent remains consistent under stress
- - [ ] Write integration test: concurrent edits from multiple clients resolve correctly
- - [ ] Write integration test: offline ops sync correctly on reconnect
+ - [x] Write integration test: rapid indent/outdent remains consistent under stress
+ - [x] Write integration test: concurrent edits from multiple clients resolve correctly
+ - [x] Write integration test: offline ops sync correctly on reconnect
  
 
 ### Phase 13 — Property-Based Tests (Tests First)
